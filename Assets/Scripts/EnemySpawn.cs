@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemySpawn : MonoBehaviour
 {
     [SerializeField] private SpawnPoint[] _spawnPoints;
-    [SerializeField] private Enemy _enemyPrefab;
+    [SerializeField] private EnemyPool _pool;
     [SerializeField] private float _spawnDelay = 2f;
 
     private bool _isWork = true;
@@ -24,9 +24,13 @@ public class EnemySpawn : MonoBehaviour
 
             SpawnPoint point = _spawnPoints[randomIndex];
 
-            Enemy newEnemy = Instantiate(_enemyPrefab,transform.position, Quaternion.identity);
+            Enemy newEnemy = _pool.GetEnemy();
 
-            Vector3 direction = point.GetDirection();
+            newEnemy.transform.position = transform.position;
+
+            newEnemy.gameObject.SetActive(true);
+
+            Vector3 direction = point.Direction;
 
             direction.y = 0;
 
